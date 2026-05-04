@@ -1,5 +1,7 @@
 # C++ Image Processing Pipeline (OpenCV)
 
+*NOTE :* STILL IN DEVELOPMENT
+
 ## Overview
 
 A low-level image processing pipeline implemented in C++ using OpenCV.
