@@ -1,0 +1,11 @@
+.cache
+Compile commands.json
+/build/
+*.o
+*.out
+*.exe
+*.log
+*.jpg
+*.jpeg
+*.png
+*.avi
