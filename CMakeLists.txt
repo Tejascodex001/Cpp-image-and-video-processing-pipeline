@@ -1,13 +1,14 @@
 cmake_minimum_required(VERSION 3.10)
+project(CV_Pipeline)
 
-project(CVTool)
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
+# Find OpenCV
 find_package(OpenCV REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
 
-add_executable(cv_tool main.cpp)
-
+# Executable 1: Your static image tester
+add_executable(cv_tool main.cpp vision_filters.cpp)
 target_link_libraries(cv_tool ${OpenCV_LIBS})
-target_include_directories(cv_tool PRIVATE ${OpenCV_INCLUDE_DIRS})
+
+# Executable 2: Your real-time video loop
+add_executable(live_video live_video.cpp vision_filters.cpp)
+target_link_libraries(live_video ${OpenCV_LIBS})
