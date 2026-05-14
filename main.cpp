@@ -38,7 +38,8 @@ int main(int argc, char** argv){
     cout << "blue: " << int(blue) << " green: " << int(green) << " red: " << int(red) << endl;
     
     // call of drawing on color image
-    Mat res_clr = draw_color_img(img, start, width, 0, 0, 255);
+    Mat res_clr;
+    draw_color_img(img,res_clr, start, width, 0, 0, 255);
     imwrite("draw_clr.jpg", res_clr);
 
     Mat grayimg;
@@ -55,15 +56,18 @@ int main(int argc, char** argv){
     cout << "pixel value at (50,50) after changing: " << pixval_ch << endl;
     
     // call of cropping the image
-    Mat res_crop = crop_image(grayimg, 10, 150, 50, 100);
+    Mat res_crop;
+    crop_image(grayimg, res_crop, 10, 150, 50, 100);
     imwrite("res_crop.jpg", res_crop);
 
     // call of resize of image
-    Mat res_resize = resize_image(grayimg); // optional parameters of x and y (size of image) can be passed. ex: (img, 244, 244);
+    Mat res_resize ;
+    resize_image(grayimg, res_resize); // optional parameters of x and y (size of image) can be passed. ex: (img, 244, 244);
     imwrite("res_resize.jpg", res_resize);                                            
                            
     // call of drawing on gray image
-    Mat res_gray = draw_gray_img(grayimg, start, width, 255);
+    Mat res_gray;
+    draw_gray_img(grayimg, res_gray, start, width, 255);
     imwrite("res_gray.jpg", res_gray);
 
     return 0;
