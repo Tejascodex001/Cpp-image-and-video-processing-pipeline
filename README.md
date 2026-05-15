@@ -50,7 +50,7 @@ The pipeline acts as a live state machine. Use your keyboard to toggle rendering
 * `s` - Toggle Sobel Edge Detection compute/render
 * `ESC` - Safely interrupt the hardware loop and exit
 
-## 🗺️ Roadmap & Progression Architecture
+## Roadmap & Progression Architecture
 
 This project follows a strict, non-negotiable progression path: Correctness → Memory Safety → Real-Time Streaming → Profiling → AI Inference.
 
