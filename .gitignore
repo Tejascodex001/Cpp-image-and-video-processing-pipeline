@@ -1,6 +1,7 @@
-.cache
+i.cache
 Compile commands.json
 /build/
+/docs/
 *.o
 *.out
 *.exe
