@@ -1,0 +1,32 @@
+site_name: Real-Time CV Engine
+site_description: Zero-allocation image processing pipeline in C++
+site_author: Systems Engineering Log
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.expand
+    - suggest.search
+    - search.highlight
+  palette:
+    - scheme: slate 
+      primary: black
+      accent: deep orange
+
+nav:
+  - Home: index.md  # Make sure you have a docs/index.md file!
+  - As-Built Architecture:
+    - The Memory Model: Architecture/01-memory-model.md
+    - Hardware Lifecycle: Architecture/02-hardware-lifecycle.md
+    - Pipeline Mathematics: Architecture/03-pipeline-mathematics.md
+    - Telemetry Engine: Architecture/04-telemetry-engine.md
+  - Planning & Logs:
+    - Daily Devlog: pre-project/DEVLOG.md
+    - Roadmap & Phases:
+      - Phase 1 (Foundations): pre-project/ROADMAP_PHASES/PHASE_1_FOUNDATIONS.md
+      - Phase 2 (Streaming): pre-project/ROADMAP_PHASES/PHASE_2_STREAMING.md
+      - Phase 3 (Inference): pre-project/ROADMAP_PHASES/PHASE_3_INFERENCE.md
+      - Phase 4 (Concurrency): pre-project/ROADMAP_PHASES/PHASE_4_PARALLELISM.md
+      - Phase 5 (GPU/CUDA): pre-project/ROADMAP_PHASES/PHASE_5_GPU_SYSTEMS.md
+      - Phase 6 (Autonomous): pre-project/ROADMAP_PHASES/PHASE_6_AUTONOMOUS_SYSTEMS.md
