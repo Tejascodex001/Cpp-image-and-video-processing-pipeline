@@ -1,7 +1,10 @@
+#include <vector>
 #include "vision_filters.hpp"
 #include <opencv2/core/types.hpp>
 
 using namespace cv;
+using namespace std;
+
 // function for resizing the image
 void resize_image(const Mat& img, Mat & resized, int x, int y){
     Size sized(x,y);
@@ -136,3 +139,37 @@ void custom_sobel(const Mat &gray_img, Mat &sobel_out){
     }
 }
 
+// Converts OpenCV HWC (BGR) to AI NCHW (RGB) Float32
+void prepare_tensor(const Mat &input, vector<float> &tensor_data) {
+    int rows = input.rows, cols = input.cols;
+    int total_pixels = rows*cols;
+
+    // 1. Pre-allocate the exact float32 memory required
+    // 3 channels * total pixels
+    tensor_data.resize(3 * total_pixels);
+
+    // 2. Setup memory pointers for the NCHW planar layout
+    // tensor_data.data() returns a raw C-style pointer to the underlying array
+    float* r_plane = tensor_data.data();
+    float* g_plane = tensor_data.data() + total_pixels;
+    float* b_plane = tensor_data.data() + (total_pixels * 2);
+
+    // 3. Traverse the image and route the bytes to the correct planes
+    for (int i = 0; i < rows; ++i) {
+        const uchar* row_ptr = input.ptr<uchar>(i);
+        
+        for (int j = 0; j < cols; ++j) {
+            uchar b = row_ptr[j * 3 + 0];
+            uchar g = row_ptr[j * 3 + 1];
+            uchar r = row_ptr[j * 3 + 2];
+
+            // Calculate the flat 1D index for the current pixel
+            int pixel_idx = (i * cols) + j;
+
+            // Normalize (divide by 255.0f) and write to planar RGB layout
+            r_plane[pixel_idx] = r / 255.0f;
+            g_plane[pixel_idx] = g / 255.0f;
+            b_plane[pixel_idx] = b / 255.0f;
+        }
+    }
+}

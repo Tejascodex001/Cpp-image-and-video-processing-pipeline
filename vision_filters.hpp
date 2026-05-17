@@ -1,5 +1,5 @@
 #pragma once // Prevents the compiler from including this file twice
-
+#include <vector>
 #include <opencv4/opencv2/opencv.hpp>
 
 void draw_gray_img(const cv::Mat &img, cv::Mat &gray_img, int start, int end, int val);
@@ -11,3 +11,4 @@ void custom_blur_filter(const cv::Mat &color_img, cv::Mat &blur_out);
 void pad_img_gray(const cv::Mat &input_img, cv::Mat &padded_out);
 void pad_img_color(const cv::Mat &input_img, cv::Mat &padded_col_out);
 void custom_sobel(const cv::Mat &gray_img, cv::Mat &sobel_out);
+void prepare_tensor(const cv::Mat &input, std::vector<float> &tensor_data);

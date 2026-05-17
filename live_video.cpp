@@ -23,13 +23,15 @@ int main(){
     Mat Frame, small_frame;
     Mat gray, blurred, edge, edges_bgr, gray_bgr;
     Mat combined_view_top, combined_view_bot, combined_view;
-    
+    std::vector<float> ai_tensor;
+
     // --- ROLLING ACCUMULATORS ---
     int frame_count = 0;
     double total_loop_ms = 0.0;
     double total_gray_ms = 0.0;
     double total_blur_ms = 0.0;
     double total_sobel_ms = 0.0;
+    double total_tensor_ms = 0.0;
 
     auto wall_clock_start = std::chrono::high_resolution_clock::now();
 
@@ -38,10 +40,12 @@ int main(){
     double disp_gray = 0.0;
     double disp_blur = 0.0;
     double disp_sobel = 0.0;
+    double disp_tensor = 0.0;
 
     bool enable_gray = true;
     bool enable_blur = true;
     bool enable_sobel = true;
+    bool enable_tensor = true;
 
     while(true){
         cap >> Frame;
@@ -79,6 +83,10 @@ int main(){
         }
 
         auto t3 = std::chrono::high_resolution_clock::now();
+        
+        if(enable_tensor) prepare_tensor(small_frame, ai_tensor);
+
+        auto t4 = std::chrono::high_resolution_clock::now();
 
         if(enable_gray) cvtColor(gray, gray_bgr, COLOR_GRAY2BGR);
         else {
@@ -104,12 +112,14 @@ int main(){
         double gray_ms = std::chrono::duration<double, std::milli>(t1 - t0).count();
         double blur_ms = std::chrono::duration<double, std::milli>(t2 - t1).count();
         double sobel_ms = std::chrono::duration<double, std::milli>(t3 - t2).count();
+        double tensor_ms = std::chrono::duration<double, std::milli>(t4 - t3).count();
 
     // Accumulate
         total_loop_ms += loop_ms;
         total_gray_ms += gray_ms;
         total_blur_ms += blur_ms;
         total_sobel_ms += sobel_ms;
+        total_tensor_ms += tensor_ms;
         frame_count++;
         
         auto now = std::chrono::high_resolution_clock::now();
@@ -120,17 +130,20 @@ int main(){
             disp_gray = total_gray_ms / frame_count;
             disp_blur = total_blur_ms / frame_count;
             disp_sobel = total_sobel_ms / frame_count;
+            disp_tensor = total_tensor_ms / frame_count;
 
             std::cout << "[TELEMETRY] FPS: " << disp_fps 
                 << " | Gray: " << disp_gray << "ms"
                 << " | Blur: " << disp_blur << "ms"
-                << " | Sobel: " << disp_sobel << "ms\n";
+                << " | Sobel: " << disp_sobel << "ms"
+                << " | Tensor: " << disp_tensor << "ms\n";
 
             // Reset accumulators for the next second
             frame_count = 0;
             total_gray_ms = 0.0;
             total_blur_ms = 0.0;
             total_sobel_ms = 0.0;
+            total_tensor_ms = 0.0;
 
             wall_clock_start = now;
 
@@ -150,6 +163,9 @@ int main(){
         sprintf(text_buffer, "Sobel: %.2f ms", disp_sobel);
         putText(combined_view, text_buffer, Point(10, 130), FONT_HERSHEY_SIMPLEX, 0.8, Scalar(0, 255, 0), 2);
         
+        sprintf(text_buffer, "Tensor: %.2f ms", disp_tensor);
+        putText(combined_view, text_buffer, Point(10, 170), FONT_HERSHEY_SIMPLEX, 0.8, Scalar(0,255,0), 2);
+        
 
         imshow("Live: Dashboard", combined_view);
 
@@ -158,6 +174,7 @@ int main(){
         if(key == 'g') enable_gray = !enable_gray;
         if(key == 'b') enable_blur = !enable_blur;
         if(key == 's') enable_sobel = !enable_sobel;
+        if(key == 't') enable_tensor = !enable_tensor;
 
 
 

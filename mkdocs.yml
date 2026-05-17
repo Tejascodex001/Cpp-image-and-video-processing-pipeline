@@ -21,6 +21,7 @@ nav:
     - Hardware Lifecycle: Architecture/02-hardware-lifecycle.md
     - Pipeline Mathematics: Architecture/03-pipeline-mathematics.md
     - Telemetry Engine: Architecture/04-telemetry-engine.md
+    - Tensor processing: Architecture/05-tensor-processing.md
   - Planning & Logs:
     - Daily Devlog: pre-project/DEVLOG.md
     - Roadmap & Phases:
