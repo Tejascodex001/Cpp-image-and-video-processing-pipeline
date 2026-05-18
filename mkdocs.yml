@@ -22,6 +22,7 @@ nav:
     - Pipeline Mathematics: Architecture/03-pipeline-mathematics.md
     - Telemetry Engine: Architecture/04-telemetry-engine.md
     - Tensor processing: Architecture/05-tensor-processing.md
+    - Normalization & Verification: Architecture/06-normalization-verification.md
   - Planning & Logs:
     - Daily Devlog: pre-project/DEVLOG.md
     - Roadmap & Phases:
