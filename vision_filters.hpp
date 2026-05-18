@@ -12,3 +12,5 @@ void pad_img_gray(const cv::Mat &input_img, cv::Mat &padded_out);
 void pad_img_color(const cv::Mat &input_img, cv::Mat &padded_col_out);
 void custom_sobel(const cv::Mat &gray_img, cv::Mat &sobel_out);
 void prepare_tensor(const cv::Mat &input, std::vector<float> &tensor_data);
+void normalize_to_float32(const cv::Mat &input, cv::Mat &output);
+void get_tensor_min_max(const cv::Mat &float_32f, double &min_val, double &max_val);

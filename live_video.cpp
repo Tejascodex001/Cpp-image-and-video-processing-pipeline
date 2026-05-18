@@ -32,6 +32,11 @@ int main(){
     double total_blur_ms = 0.0;
     double total_sobel_ms = 0.0;
     double total_tensor_ms = 0.0;
+    
+    Mat norm_float;
+    double current_min = 0.0;
+    double current_max = 0.0;
+    bool enable_norm = false; // toggle via 'n'
 
     auto wall_clock_start = std::chrono::high_resolution_clock::now();
 
@@ -87,6 +92,16 @@ int main(){
         if(enable_tensor) prepare_tensor(small_frame, ai_tensor);
 
         auto t4 = std::chrono::high_resolution_clock::now();
+
+        if(enable_norm){
+            normalize_to_float32(gray, norm_float);
+            get_tensor_min_max(norm_float, current_min, current_max);
+        }
+        else{
+            norm_float.create(small_frame.rows, small_frame.cols, CV_32FC1);
+            norm_float.setTo(0.0f);
+            current_min = 0.0; current_max = 0.0;
+        }
 
         if(enable_gray) cvtColor(gray, gray_bgr, COLOR_GRAY2BGR);
         else {
@@ -165,6 +180,9 @@ int main(){
         
         sprintf(text_buffer, "Tensor: %.2f ms", disp_tensor);
         putText(combined_view, text_buffer, Point(10, 170), FONT_HERSHEY_SIMPLEX, 0.8, Scalar(0,255,0), 2);
+
+        sprintf(text_buffer, "Norm [Min: %.2f | Max: %.2f]", current_min, current_max);
+        putText(combined_view, text_buffer, Point(10, 200), FONT_HERSHEY_SIMPLEX, 0.8, Scalar(0,255,0), 2);
         
 
         imshow("Live: Dashboard", combined_view);
@@ -175,6 +193,7 @@ int main(){
         if(key == 'b') enable_blur = !enable_blur;
         if(key == 's') enable_sobel = !enable_sobel;
         if(key == 't') enable_tensor = !enable_tensor;
+        if(key == 'n') enable_norm  =!enable_norm;
 
 
 

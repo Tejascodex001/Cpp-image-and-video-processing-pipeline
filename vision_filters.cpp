@@ -1,3 +1,5 @@
+#include <opencv2/core.hpp>
+#include <opencv2/core/hal/interface.h>
 #include <vector>
 #include "vision_filters.hpp"
 #include <opencv2/core/types.hpp>
@@ -172,4 +174,24 @@ void prepare_tensor(const Mat &input, vector<float> &tensor_data) {
             b_plane[pixel_idx] = b / 255.0f;
         }
     }
+}
+
+void normalize_to_float32(const Mat &input, Mat &output){
+    output.create(input.rows, input.cols, CV_32FC1);
+    for(int i = 0; i < input.rows; i++){
+        const uchar *in_ptr = input.ptr<uchar>(i);
+        float* out_ptr = output.ptr<float>(i);
+        for(int j = 0; j< input.cols; j++){
+            out_ptr[j] = in_ptr[j]/255.0f;
+        }
+    }
+}
+
+void get_tensor_min_max(const Mat &float_32f, double &min_val, double &max_val){
+    if(float_32f.empty()){
+        min_val = 0.0f; max_val = 0.0f;
+        return;
+    }
+    minMaxLoc(float_32f, &min_val, &max_val);
+
 }
