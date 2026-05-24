@@ -1,3 +1,4 @@
+#include <onnxruntime_cxx_api.h>
 #include <iostream>
 #include <chrono>
 #include <opencv2/core/hal/interface.h>
@@ -15,6 +16,9 @@ using namespace std;
 using namespace cv;
 
 int main(){
+    // --- INITIALIZE INFERENCE RUNTIME ---
+    Ort::Env ort_env(ORT_LOGGING_LEVEL_WARNING, "CV_Inference_Engine");
+    std::cout << "[SYSTEM] ONNX Runtime Environment Initialized Successfully.\n";
     VideoCapture cap(0);
     if(!cap.isOpened()){
         cout << "Error: cannot open camera" << endl;
