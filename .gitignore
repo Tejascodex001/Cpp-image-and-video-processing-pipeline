@@ -11,3 +11,7 @@ site/
 *.jpeg
 *.png
 *.avi
+
+# Ignore downloaded external binaries and libraries
+third_party/onnxruntime/
+third_party/*.tgz
